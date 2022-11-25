@@ -1,8 +1,7 @@
-package yankov.utils;
+package yankov.jutils;
 
 import org.junit.Assert;
 import org.junit.Test;
-import yankov.jutils.StringUtils;
 
 public class StringUtilsTest {
     @Test
