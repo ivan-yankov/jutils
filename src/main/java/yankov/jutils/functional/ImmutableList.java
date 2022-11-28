@@ -77,7 +77,7 @@ public class ImmutableList<T> implements List<T> {
     }
 
     public ImmutableList<T> removeElement(int index) {
-        if (index < 0 || index >= size()) {
+        if (isInvalidIndex(index)) {
             return this;
         }
         return ExtendedStream.concat(stream().limit(index), stream().skip(index + 1)).toList();
@@ -85,6 +85,21 @@ public class ImmutableList<T> implements List<T> {
 
     public ImmutableList<T> updateElement(int index, T element) {
         return zipWithIndex().stream().map(x -> x._2() == index ? element : x._1()).toList();
+    }
+
+    public ImmutableList<T> swapElements(int i, int j) {
+        if (isEmpty() || isInvalidIndex(i) || isInvalidIndex(j)) {
+            return this;
+        }
+        return zipWithIndex().stream().map(x -> {
+            if (x._2() == i) {
+                return get(j);
+            } else if (x._2() == j) {
+                return get(i);
+            } else {
+                return x._1();
+            }
+        }).toList();
     }
 
     public <U> ImmutableList<Tuple<T, U>> zip(ImmutableList<U> other) {
@@ -235,5 +250,9 @@ public class ImmutableList<T> implements List<T> {
 
     private String getErrorMessage(String operation) {
         return operation + " is not supported on immutable list.";
+    }
+
+    private boolean isInvalidIndex(int index) {
+        return index < 0 || index >= size();
     }
 }

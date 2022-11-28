@@ -137,6 +137,21 @@ public class ImmutableListTest {
     }
 
     @Test
+    public void swapElements_EmptyList_EmptyList() {
+        Assert.assertTrue(ImmutableList.from().swapElements(1, 2).isEmpty());
+    }
+
+    @Test
+    public void swapElements_InvalidIndexes_ListWithoutChange() {
+        Assert.assertTrue(ImmutableList.from(1, 2, 5, 4, 3).eq(ImmutableList.from(1, 2, 5, 4, 3).swapElements(10, 8)));
+    }
+
+    @Test
+    public void swapElements_ValidIndexes_ListWithSwappedElements() {
+        Assert.assertTrue(ImmutableList.from(1, 2, 3, 4, 5).eq(ImmutableList.from(1, 2, 5, 4, 3).swapElements(4, 2)));
+    }
+
+    @Test
     public void zip_NonEmptyLists() {
         Assert.assertTrue(
                 ImmutableList.from(new Tuple<>(1, "10"), new Tuple<>(2, "20"))
