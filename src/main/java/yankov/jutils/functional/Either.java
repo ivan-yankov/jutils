@@ -21,24 +21,25 @@ public class Either<L, R> {
         return right != null ? Optional.of(right) : Optional.empty();
     }
 
-    public <T> Either<L, T> map(Function<R, T> f) {
-        if (getRight().isPresent()) {
-            return right(f.apply(getRight().get()));
-        } else if (getLeft().isPresent()) {
-            return left(getLeft().get());
-        } else {
-            throw bothNullException();
+    public <T> Either<T, R> mapLeft(Function<L, T> f) {
+        if (getLeft().isPresent()) {
+            return Either.left(f.apply(getLeft().get()));
         }
+        return Either.right(getRight().orElseThrow(this::bothNullException));
+    }
+
+    public <T> Either<L, T> mapRight(Function<R, T> f) {
+        if (getRight().isPresent()) {
+            return Either.right(f.apply(getRight().get()));
+        }
+        return Either.left(getLeft().orElseThrow(this::bothNullException));
     }
 
     public void fold(Consumer<R> onRight, Consumer<L> onLeft) {
         if (getRight().isPresent()) {
             onRight.accept(getRight().get());
-        } else if (getLeft().isPresent()) {
-            onLeft.accept(getLeft().get());
-        } else {
-            throw bothNullException();
         }
+        onLeft.accept(getLeft().orElseThrow(this::bothNullException));
     }
 
     private IllegalStateException bothNullException() {
