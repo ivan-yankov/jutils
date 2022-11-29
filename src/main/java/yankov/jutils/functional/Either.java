@@ -38,8 +38,9 @@ public class Either<L, R> {
     public void fold(Consumer<R> onRight, Consumer<L> onLeft) {
         if (getRight().isPresent()) {
             onRight.accept(getRight().get());
+        } else {
+            onLeft.accept(getLeft().orElseThrow(this::bothNullException));
         }
-        onLeft.accept(getLeft().orElseThrow(this::bothNullException));
     }
 
     private IllegalStateException bothNullException() {
