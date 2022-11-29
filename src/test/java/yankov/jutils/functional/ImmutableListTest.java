@@ -87,6 +87,11 @@ public class ImmutableListTest {
     }
 
     @Test
+    public void appendAll() {
+        Assert.assertTrue(ImmutableList.from(1, 2, 3, 4, 5).eq(ImmutableList.from(1, 2, 3).appendAll(ImmutableList.from(4, 5))));
+    }
+
+    @Test
     public void insert_ValidIndex_Succeed() {
         Assert.assertTrue(ImmutableList.from(1, 2, 3, 4, 5).eq(ImmutableList.from(1, 2, 4, 5).insert(2, 3)));
     }

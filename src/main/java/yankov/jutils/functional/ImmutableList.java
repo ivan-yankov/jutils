@@ -65,6 +65,12 @@ public class ImmutableList<T> implements List<T> {
         return ImmutableList.of(result);
     }
 
+    public final ImmutableList<T> appendAll(ImmutableList<T> list) {
+        List<T> result = asMutable();
+        result.addAll(list);
+        return ImmutableList.of(result);
+    }
+
     public ImmutableList<T> insert(int index, T element) {
         if (index < 0 || index > size()) {
             return this;
