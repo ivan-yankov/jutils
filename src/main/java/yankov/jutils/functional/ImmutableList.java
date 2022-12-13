@@ -42,6 +42,14 @@ public class ImmutableList<T> implements List<T> {
         return ImmutableList.of(result);
     }
 
+    public static <A> ImmutableList<A> tabulate(int n, Function<Integer, A> element) {
+        List<A> result = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            result.add(element.apply(i));
+        }
+        return ImmutableList.of(result);
+    }
+
     public long numberOfSlides(long step) {
         return Math.round(Math.ceil((double) size() / (double) step));
     }
